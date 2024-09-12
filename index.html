@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CyberNotes</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <script type="importmap" defer>
+      {
+        "imports": {
+          "@google/generative-ai": "https://esm.run/@google/generative-ai"
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html-docx-js@0.3.1/dist/html-docx.min.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.js"
+      defer
+    ></script>
+  </head>
+  <body>
+    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+    <div class="container">
+      <div class="header">
+        <h1>CyberNotes AI</h1>
+      </div>
+      <div class="content">
+        <textarea
+          id="syllabusInput"
+          placeholder=">> Enter your syllabus data here..."
+        ></textarea>
+        <button id="generateButton">Decrypt Knowledge</button>
+        <div class="loading" id="loadingIndicator">Hacking mainframe...</div>
+        <div id="notesOutput"></div>
+      </div>
+      <button disabled id="generateDoc">
+        Generate Docx
+      </button>
+    </div>
+    <script type="module">
+      import { GoogleGenerativeAI } from "@google/generative-ai";
+    </script>
+    <script type="module" src="script.js"></script>
+
+    <script>
+      //!EFFECTS
+      // Matrix rain effect
+      const canvas = document.getElementById("matrixCanvas");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?";
+      const fontSize = 10;
+      const columns = canvas.width / fontSize;
+
+      const drops = [];
+      for (let i = 0; i < columns; i++) {
+        drops[i] = 1;
+      }
+
+      function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "#0f0";
+        ctx.font = fontSize + "px monospace";
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = characters.charAt(
+            Math.floor(Math.random() * characters.length)
+          );
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+      }
+
+      setInterval(drawMatrix, 33);
+
+      // Handle window resize for the canvas
+      window.addEventListener("resize", function () {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    </script>
+  </body>
+</html>
