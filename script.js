@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-const genAI = new GoogleGenerativeAI("AIzaSyCVaBSKIxIpd5KzaEZcmaKo-ogZV7r3NCk");
+import { WATER } from "./const.js";
+const genAI = new GoogleGenerativeAI(WATER);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 //************************************************************** */
